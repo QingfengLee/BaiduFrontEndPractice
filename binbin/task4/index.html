@@ -1,0 +1,159 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>queue</title>
+    <style type="text/css">
+    .red-span {
+      background-color: red;
+      height: 20px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    .horCenter{
+      padding-top: 100px;
+      text-align: center;
+    }
+    </style>
+  </head>
+<body>
+<div class="horCenter">
+  <div>
+    <input type="text" id="input-num"/>
+    <button id="left-push-btn">左侧入</button>
+    <button id="right-push-btn">右侧入</button>
+    <button id="left-pop-btn">左侧出</button>
+    <button id="right-pop-btn">右侧处</button>
+  </div>
+  <br/>
+  <!--模块显示-->
+  <div id="queue-show"></div>
+</div>
+<script type="text/javascript">
+// 模拟双向队列
+var queue = []
+
+/**
+ * @brief 校验输入是否合理
+ * @details 主要校验是否为数字
+ * 
+ * @param i 输入
+ * @return 是否合理
+ */
+function validate (i) {
+  return isNaN(i)
+}
+
+/**
+ * @brief 右侧插入一个数字到队列中，并更新页面
+ * 
+ * @param i 输入
+ * @return 是否插入
+ */
+function leftPush (i) {
+  if (validate(i)) {
+    alert('校验错误，请插入数字！')
+    return false
+  } else {
+    queue.unshift(i)
+    // 左侧插入一个span
+    var sp = document.createElement('span')
+    sp.className = 'red-span'
+    sp.innerHTML = i
+    var qs = document.getElementById('queue-show')
+    qs.insertBefore(sp, qs.firstChild)
+    return true
+  }
+}
+
+/**
+ * @brief 右侧插入一个数字到队列中，并更新页面
+ * 
+ * @param i 输入
+ * @return 是否插入
+ */
+function rightPush (i) {
+  if (validate(i)) {
+    alert('校验错误，请插入数字！')
+    return false
+  } else {
+    queue.push(i)
+    // 右侧插入一个span
+    var sp = document.createElement('span')
+    sp.className = 'red-span'
+    sp.innerHTML = i
+    document.getElementById('queue-show').appendChild(sp)
+    return true
+  }
+}
+
+/**
+ * @brief 将队列中的数字从左侧弹出一个，并更新页面
+ * 
+ * @return 是否弹出成功
+ */
+function leftPop () {
+  if (queue.length === 0) {
+    return false
+  } else {
+    var t = queue.shift()
+    // 左侧减少一个span
+    document.getElementById('queue-show').firstChild.remove()
+    alert('left pop value: ' + t)
+    return true
+  }
+}
+
+/**
+ * @brief 将队列中的数字从右侧弹出一个，并更新页面
+ * 
+ * @return 是否弹出成功
+ */
+function rightPop () {
+  if (queue.length === 0) {
+    return false
+  } else {
+    var t = queue.pop()
+    // 右侧减少一个span
+    document.getElementById('queue-show').lastChild.remove()
+    alert('right pop value: ' + t)
+    return true
+  }
+}
+
+/**
+ * @brief 初始化
+ * @details 为按钮绑定动作
+ */
+function init () {
+  // 为四个按钮分别绑定对应的事件
+  var leftPushBtn = document.getElementById('left-push-btn')
+  leftPushBtn.addEventListener('click', function () {
+    leftPush(document.getElementById('input-num').value)
+  }, false)
+
+  var rightPushBtn = document.getElementById('right-push-btn')
+  rightPushBtn.addEventListener('click', function () {
+    rightPush(document.getElementById('input-num').value)
+  }, false)
+  
+  var leftPopBtn = document.getElementById('left-pop-btn')
+  leftPopBtn.addEventListener('click', function () {
+    leftPop()
+  }, false)
+  
+  var rightPopBtn = document.getElementById('right-pop-btn')
+  rightPopBtn.addEventListener('click', function () {
+    rightPop()
+  }, false)
+}
+
+// 初始化
+init()
+
+
+</script>
+
+
+</body>
+</html>
